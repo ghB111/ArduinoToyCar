@@ -6,19 +6,21 @@ RF24 radio(9,10);
 
 //byte address[][6] = {"1Node","2Node","3Node","4Node","5Node","6Node"};  
 
+const uint64_t pipe = 0xE8E8F0F0E1LL;
+
 void setup(){
   Serial.begin(9600); 
   radio.begin();
-  radio.setAutoAck(1);        
+   radio.setAutoAck(0);        // можно сделать проверку отправки        
   radio.setRetries(0,15);     
-  radio.enableAckPayload();    
+  //radio.enableAckPayload();    
   radio.setPayloadSize(32);     
 
-  radio.openReadingPipe(1,address[0]);      
-  radio.setChannel(0x60);  
+  radio.openReadingPipe(1,pipe);      
+  radio.setChannel(0x60); // можно поменять, и можно искать оптимальный в nrf_listen_air  
 
   radio.setPALevel (RF24_PA_MAX); 
-  radio.setDataRate (RF24_1MBPS); 
+  radio.setDataRate (RF24_1MBPS); //надо с этим поиграться, пока поставил среднее
   
   radio.powerUp(); 
   radio.startListening();  

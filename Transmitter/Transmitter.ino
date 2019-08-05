@@ -17,8 +17,8 @@ void setup() {
   //radio.enableAckPayload();    
   radio.setPayloadSize(32);     
 
-  radio.openWritingPipe(0xE8E8F0F0E1LL);   
-  radio.setChannel(0x60);  // можно поменять
+  radio.openWritingPipe(pipe);   
+  radio.setChannel(0x60);  // можно поменять, и можно искать оптимальный в nrf_listen_air  
 
   radio.setPALevel (RF24_PA_MAX); 
   radio.setDataRate (RF24_1MBPS); //надо с этим поиграться, пока поставил среднее
