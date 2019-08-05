@@ -20,7 +20,9 @@ int DATA[4] = {512, 512, 0, 0};
 
 void loop() {
 
-    if ( radio.available() ) radio.read(&DATA, sizeof(DATA)); else { dataFuckUp(); };
+    if ( radio.available() ) radio.read(&DATA, sizeof(DATA));
+
+    //применить дату
       
 }
 
