@@ -6,7 +6,7 @@ RF24 radio(9, 10);
 
 //byte address[][6] = {"1Node", "2Node", "3Node", "4Node", "5Node", "6Node"};
 
-
+const uint64_t pipe = 0xE8E8F0F0E1LL;
 
 void setup() {
   Serial.begin(9600); 
@@ -21,7 +21,7 @@ void setup() {
   radio.setChannel(0x60);  
 
   radio.setPALevel (RF24_PA_MAX); 
-  radio.setDataRate (RF24_250KBPS); 
+  radio.setDataRate (RF24_1MBPS); 
 
   radio.powerUp(); 
   radio.stopListening();  
