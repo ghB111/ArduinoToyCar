@@ -28,8 +28,7 @@ void setup() {
 }
 
 void loop() {
-  Serial.print("Sent: "); Serial.println(counter);
-  radio.write(&counter, sizeof(counter));
-  counter++;
-  delay(10);
+
+
+ 
 }

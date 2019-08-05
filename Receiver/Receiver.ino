@@ -25,10 +25,7 @@ void setup(){
 }
 
 void loop() {
-    byte pipeNo, gotByte;                          
-    while( radio.available(&pipeNo)){  
-      radio.read( &gotByte, sizeof(gotByte) );        
 
-      Serial.print("Recieved: "); Serial.println(gotByte);
-   }
+    
+    
 }
