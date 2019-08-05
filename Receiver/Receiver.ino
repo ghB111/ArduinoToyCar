@@ -20,7 +20,7 @@ int DATA[4] = {512, 512, 0, 0};
 
 void loop() {
 
-    if ( radio.available() ) radio.read(&DATA, sizeof(DATA));
+    if ( radio.available() ) radio.read(&DATA, sizeof(DATA)); else { dataFuckUp(); };
       
 }
 
@@ -40,5 +40,16 @@ void radioRSetUp() {
   
   radio.powerUp(); 
   radio.startListening();  
+
+}
+
+void dataFuckUp() {
+
+  //здесь можно зажигать красный светодиод ошибки. Вообще лучше эту функцию вызывать при потере связи
+
+  for (int i = 0; i < 2; i++) {
+    DATA[i] = 512;
+    DATA[i+2] = 0;
+  }
 
 }
