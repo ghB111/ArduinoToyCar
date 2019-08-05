@@ -19,8 +19,8 @@ void setup() {
     
 }
 
-int DATA[4]; /* 0 - X
-             ** 1 - Y
+int DATA[4]; /* 0 - Y
+             ** 1 - X
              ** 2 - switch_1
              ** 3 - switch_2
              */

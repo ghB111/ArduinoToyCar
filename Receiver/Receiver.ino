@@ -18,11 +18,23 @@ void setup(){
 
 int DATA[4] = {512, 512, 0, 0};
 
+int angle = 90;
+bool DoIBeep = 0;
+int driveSpeed = 0;
+
 void loop() {
 
     if ( radio.available() ) radio.read(&DATA, sizeof(DATA));
-
     //применить дату
+
+    angle = 90 + map(DATA[1], 0, 1023, -30, 30);
+    //servo.write(angle)
+
+    driveSpeed = DATA[1];
+    //выйти на двигатель
+
+    DoIBeep = DATA[2];
+    if (DoIBeep) { beep(); } //бибикалку пока не сделали
       
 }
 
@@ -54,4 +66,9 @@ void dataFuckUp() {
     DATA[i+2] = 0;
   }
 
+}
+
+void beep() {
+
+}
 }
