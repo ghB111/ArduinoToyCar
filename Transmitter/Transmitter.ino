@@ -11,6 +11,10 @@ const uint64_t pipe = 0xE8E8F0F0E1LL;
 void setup() {
   Serial.begin(9600); 
 
+  for (int i = 0; i < 2; i++) {
+    pinMode(i, INPUT);
+  }
+
   radioTSetUp();
     
 }
@@ -23,6 +27,14 @@ int DATA[4]; /* 0 - X
 
 void loop() {
 
+  for (int i = 0; i < 2; i ++) {
+    DATA[i] = analogRead(i); 
+  }
+  for (int i = 0; i < 2; i++) {
+    DATA[i+2] = digitalRead(i);
+  }
+
+  radio.write(&DATA, sizeof(DATA));
 
  
 }
