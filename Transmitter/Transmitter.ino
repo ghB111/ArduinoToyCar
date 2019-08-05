@@ -4,9 +4,9 @@
 
 RF24 radio(9, 10); 
 
-byte address[][6] = {"1Node", "2Node", "3Node", "4Node", "5Node", "6Node"}; 
+//byte address[][6] = {"1Node", "2Node", "3Node", "4Node", "5Node", "6Node"};
 
-byte counter;
+
 
 void setup() {
   Serial.begin(9600); 
@@ -24,7 +24,7 @@ void setup() {
   radio.setDataRate (RF24_250KBPS); 
 
   radio.powerUp(); 
-  radio.stopListening();
+  radio.stopListening();  
 }
 
 void loop() {
