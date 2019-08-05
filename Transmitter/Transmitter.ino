@@ -24,7 +24,7 @@ void setup() {
   radio.setDataRate (RF24_250KBPS); 
 
   radio.powerUp(); 
-  radio.stopListening();  /
+  radio.stopListening();
 }
 
 void loop() {
