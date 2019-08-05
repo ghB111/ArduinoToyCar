@@ -25,19 +25,21 @@ int DATA[4]; /* 0 - X
              ** 3 - switch_2
              */
 
+
+
 void loop() {
 
   for (int i = 0; i < 2; i ++) {
-    DATA[i] = analogRead(i); 
-  }
-  for (int i = 0; i < 2; i++) {
-    DATA[i+2] = digitalRead(i);
+    DATA[i] = analogRead(i);
+    DATA[i+2] = digitalRead(i); 
   }
 
   radio.write(&DATA, sizeof(DATA));
 
  
 }
+
+
 
 void radioTSetUp() {
 
