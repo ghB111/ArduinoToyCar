@@ -12,16 +12,16 @@ void setup() {
   Serial.begin(9600); 
 
   radio.begin(); 
-  radio.setAutoAck(1);        
+  radio.setAutoAck(0);        // можно сделать проверку отправки
   radio.setRetries(0, 15);    
-  radio.enableAckPayload();    
+  //radio.enableAckPayload();    
   radio.setPayloadSize(32);     
 
-  radio.openWritingPipe(address[0]);   
-  radio.setChannel(0x60);  
+  radio.openWritingPipe(0xE8E8F0F0E1LL);   
+  radio.setChannel(0x60);  // можно поменять
 
   radio.setPALevel (RF24_PA_MAX); 
-  radio.setDataRate (RF24_1MBPS); 
+  radio.setDataRate (RF24_1MBPS); //надо с этим поиграться, пока поставил среднее
 
   radio.powerUp(); 
   radio.stopListening();  
