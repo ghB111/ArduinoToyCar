@@ -11,6 +11,24 @@ const uint64_t pipe = 0xE8E8F0F0E1LL;
 void setup() {
   Serial.begin(9600); 
 
+  radioTSetUp();
+    
+}
+
+int DATA[4]; /* 0 - X
+             ** 1 - Y
+             ** 2 - switch_1
+             ** 3 - switch_2
+             */
+
+void loop() {
+
+
+ 
+}
+
+void radioTSetUp() {
+
   radio.begin(); 
   radio.setAutoAck(0);        // можно сделать проверку отправки
   radio.setRetries(0, 15);    
@@ -24,11 +42,6 @@ void setup() {
   radio.setDataRate (RF24_1MBPS); //надо с этим поиграться, пока поставил среднее
 
   radio.powerUp(); 
-  radio.stopListening();  
-}
+  radio.stopListening();
 
-void loop() {
-
-
- 
 }

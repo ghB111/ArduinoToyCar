@@ -10,8 +10,22 @@ const uint64_t pipe = 0xE8E8F0F0E1LL;
 
 void setup(){
   Serial.begin(9600); 
+
+  radioRSetUp();
+  
+  
+}
+
+void loop() {
+
+    
+    
+}
+
+void radioRSetUp() {
+
   radio.begin();
-   radio.setAutoAck(0);        // можно сделать проверку отправки        
+  radio.setAutoAck(0);        // можно сделать проверку отправки        
   radio.setRetries(0,15);     
   //radio.enableAckPayload();    
   radio.setPayloadSize(32);     
@@ -24,10 +38,5 @@ void setup(){
   
   radio.powerUp(); 
   radio.startListening();  
-}
 
-void loop() {
-
-    
-    
 }
