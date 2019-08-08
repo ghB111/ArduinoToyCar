@@ -1,7 +1,10 @@
 //#include <SPI.h>         
 #include "nRF24L01.h"     
-#include "RF24.h"     
+#include "RF24.h" 
 
+#include <Servo.h>
+
+Servo servo;
 RF24 radio(9,10);
 
 //byte address[][6] = {"1Node","2Node","3Node","4Node","5Node","6Node"};  
@@ -13,7 +16,11 @@ void setup(){
 
   radioRSetUp();
   
-  
+  servo.attach(6);
+
+  for (int i = 2; i <= 4; i++) {
+    pinMode(i, OUTPUT);
+  }
 }
 
 int DATA[4] = {512, 512, 0, 0};
@@ -27,11 +34,11 @@ void loop() {
     if ( radio.available() ) radio.read(&DATA, sizeof(DATA));
     //применить дату
 
+    driveSpeed = DATA[0];
+    drive(driveSpeed);
+    
     angle = 90 + map(DATA[1], 0, 1023, -30, 30);
-    //servo.write(angle)
-
-    driveSpeed = DATA[1];
-    //выйти на двигатель
+    servo.write(angle);
 
     DoIBeep = DATA[2];
     if (DoIBeep) { beep(); } //бибикалку пока не сделали
@@ -71,4 +78,18 @@ void dataFuckUp() {
 void beep() {
 
 }
+
+void drive(int vel) {
+
+  if ( vel >= 512 ) {
+    digitalWrite(2, HIGH); 
+    digitalWrite(4, LOW); 
+    analogWrite(3, map(vel, 512, 1023, 0, 255) ); 
+  }
+  else {
+    digitalWrite(2, LOW); 
+    digitalWrite(4, HIGH);
+    analogWrite(3, map(vel, 0, 511, 0, 255) );
+  }
+
 }
