@@ -12,7 +12,7 @@ RF24 radio(9,10);
 const uint64_t pipe = 0xE8E8F0F0E1LL;
 
 void setup(){
-  Serial.begin(9600); 
+  //Serial.begin(9600); 
 
   radioRSetUp();
   
