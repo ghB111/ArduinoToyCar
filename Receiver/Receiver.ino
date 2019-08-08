@@ -12,7 +12,7 @@ RF24 radio(9,10);
 const uint64_t pipe = 0xE8E8F0F0E1LL;
 
 void setup(){
-  //Serial.begin(9600); 
+  Serial.begin(9600); 
 
   radioRSetUp();
   
@@ -29,10 +29,15 @@ int angle = 90;
 bool DoIBeep = 0;
 int driveSpeed = 512;
 
+bool receiveSuccess = 0;
+
 void loop() {
 
-    if ( radio.available() ) radio.read(&DATA, sizeof(DATA));
+    if ( radio.available() ) {receiveSuccess = radio.read(&DATA, sizeof(DATA));}
     //применить дату
+
+    if ( receiveSuccess ) { Serial.print("Received Successfully: "); printData(); }
+    else Serial.println("RECEIVE FAILURE");
 
     driveSpeed = DATA[0];
     drive(driveSpeed);
@@ -92,4 +97,15 @@ void drive(int vel) {
     analogWrite(3, map(vel, 0, 511, 0, 255) );
   }
 
+}
+
+void printData() {
+
+  for (int i = 0; i < 4; i++) {
+  
+    Serial.print(DATA[i]);
+    Serial.print(" ");
+  
+  }
+  Serial.println();
 }
