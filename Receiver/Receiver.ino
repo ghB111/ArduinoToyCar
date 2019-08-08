@@ -48,9 +48,9 @@ void loop() {
 void radioRSetUp() {
 
   radio.begin();
-  radio.setAutoAck(0);        // можно сделать проверку отправки        
+  radio.setAutoAck(1);        // можно сделать проверку отправки        
   radio.setRetries(0,15);     
-  //radio.enableAckPayload();    
+  radio.enableAckPayload();    
   radio.setPayloadSize(32);     
 
   radio.openReadingPipe(1,pipe);      
