@@ -29,15 +29,10 @@ int angle = 90;
 bool DoIBeep = 0;
 int driveSpeed = 512;
 
-bool receiveSuccess = 0;
-
 void loop() {
 
-    if ( radio.available() ) {receiveSuccess = radio.read(&DATA, sizeof(DATA));}
+    if ( radio.available() ) {radio.read(&DATA, sizeof(DATA)); Serial.print("Received: "); printData();}
     //применить дату
-
-    if ( receiveSuccess ) { Serial.print("Received Successfully: "); printData(); }
-    else Serial.println("RECEIVE FAILURE");
 
     driveSpeed = DATA[0];
     drive(driveSpeed);
