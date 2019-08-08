@@ -11,18 +11,18 @@ const uint64_t pipe = 0xE8E8F0F0E1LL;
 void setup() {
   Serial.begin(9600); 
 
-  for (int i = 0; i < 2; i++) {
-    pinMode(i, INPUT);
-  }
+  pinMode(2, INPUT);
+  pinMode(3, INPUT);
 
   radioTSetUp();
     
 }
 
-int DATA[4]; /* 0 - Y
-             ** 1 - X
-             ** 2 - switch_1
-             ** 3 - switch_2
+int DATA[4] = {512, 512, 0, 1}; //последняя единица для дебаггинга
+             /* 0 - Y - Speed
+             ** 1 - X - Rotation Angle
+             ** 2 - switch_1 - Beeping
+             ** 3 - switch_2 - Anything else
              */
 
 

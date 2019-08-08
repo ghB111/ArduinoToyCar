@@ -27,7 +27,7 @@ int DATA[4] = {512, 512, 0, 0};
 
 int angle = 90;
 bool DoIBeep = 0;
-int driveSpeed = 0;
+int driveSpeed = 512;
 
 void loop() {
 
