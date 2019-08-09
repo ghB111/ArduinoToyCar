@@ -1,6 +1,9 @@
 //#include <SPI.h>         
 #include "nRF24L01.h"     
-#include "RF24.h"         
+#include "RF24.h" 
+
+#define thrashHold 15
+#define tH thrashHold
 
 RF24 radio(9, 10); 
 
@@ -32,6 +35,9 @@ void loop() {
   for (int i = 0; i < 2; i ++) {
     DATA[i] = analogRead(i);
     DATA[i+2] = digitalRead(i); 
+  }
+  for (int i = 0; i <= 1; i++) {
+    if ( DATA[i] > 512 - tH && DATA[i] < 512 + tH) DATA[i] = 512;
   }
 
   radio.write(&DATA, sizeof(DATA));
