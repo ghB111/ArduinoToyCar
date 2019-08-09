@@ -2,6 +2,9 @@
 #include "nRF24L01.h"     
 #include "RF24.h"         
 
+#define thrashHold 15
+#define tH thrashHold
+
 RF24 radio(9, 10); 
 
 //byte address[][6] = {"1Node", "2Node", "3Node", "4Node", "5Node", "6Node"};
@@ -34,10 +37,13 @@ void loop() {
     DATA[i] = analogRead(i);
     DATA[i+2] = digitalRead(i); 
   }
+  for (int i = 0; i <= 1; i++) {
+    if ( DATA[i] > 512 - tH && DATA[i] < 512 + tH) DATA[i] = 512;
+  }
 
   sendSuccess = radio.write(&DATA, sizeof(DATA));
 
-  if ( radio.write(&DATA, sizeof(DATA)) ) Serial.print("Send succesfully: ");
+  if ( sendSuccess ) Serial.print("Send succesfully: ");
   else Serial.println("SEND FAILED: ");
 
   printData();
