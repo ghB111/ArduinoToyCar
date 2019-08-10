@@ -12,7 +12,7 @@ RF24 radio(9,10);
 const uint64_t pipe = 0xE8E8F0F0E1LL;
 
 void setup(){
-  //Serial.begin(9600); 
+  Serial.begin(9600); 
 
   radioRSetUp();
   
@@ -31,7 +31,7 @@ int driveSpeed = 512;
 
 void loop() {
 
-    if ( radio.available() ) radio.read(&DATA, sizeof(DATA));
+    if ( radio.available() ) {radio.read(&DATA, sizeof(DATA)); Serial.print("Received: "); printData();}
     //применить дату
 
     driveSpeed = DATA[0];
@@ -92,4 +92,15 @@ void drive(int vel) {
     analogWrite(3, map(vel, 0, 511, 0, 255) );
   }
 
+}
+
+void printData() {
+
+  for (int i = 0; i < 4; i++) {
+  
+    Serial.print(DATA[i]);
+    Serial.print(" ");
+  
+  }
+  Serial.println();
 }

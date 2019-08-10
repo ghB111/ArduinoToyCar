@@ -5,6 +5,11 @@
 #define thrashHold 15
 #define tH thrashHold
 
+
+#define thrashHold 15
+#define tH thrashHold
+
+
 RF24 radio(9, 10); 
 
 //byte address[][6] = {"1Node", "2Node", "3Node", "4Node", "5Node", "6Node"};
@@ -12,7 +17,7 @@ RF24 radio(9, 10);
 const uint64_t pipe = 0xE8E8F0F0E1LL;
 
 void setup() {
-  //Serial.begin(9600); 
+  Serial.begin(9600); 
 
   pinMode(2, INPUT);
   pinMode(3, INPUT);
@@ -29,6 +34,7 @@ int DATA[4] = {512, 512, 0, 1}; //последняя единица для де�
              */
 
 
+bool sendSuccess = 0;
 
 void loop() {
 
@@ -40,8 +46,17 @@ void loop() {
     if ( DATA[i] > 512 - tH && DATA[i] < 512 + tH) DATA[i] = 512;
   }
 
-  radio.write(&DATA, sizeof(DATA));
+  for (int i = 0; i <= 1; i++) {
+    if ( DATA[i] > 512 - tH && DATA[i] < 512 + tH) DATA[i] = 512;
+  }
 
+  sendSuccess = radio.write(&DATA, sizeof(DATA));
+
+  if ( sendSuccess ) Serial.print("Send succesfully: ");
+  else Serial.println("SEND FAILED: ");
+
+  printData();
+  
  
 }
 
@@ -64,4 +79,15 @@ void radioTSetUp() {
   radio.powerUp(); 
   radio.stopListening();
 
+}
+
+void printData() {
+
+  for (int i = 0; i < 4; i++) {
+  
+    Serial.print(DATA[i]);
+    Serial.print(" ");
+  
+  }
+  Serial.println();
 }
