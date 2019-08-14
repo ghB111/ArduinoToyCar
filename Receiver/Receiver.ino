@@ -89,7 +89,7 @@ void drive(int vel) {
   else {
     digitalWrite(2, LOW); 
     digitalWrite(4, HIGH);
-    analogWrite(3, map(vel, 0, 511, 0, 255) );
+    analogWrite(3, map(vel, 511, 0, 0, 255) );
   }
 
 }
