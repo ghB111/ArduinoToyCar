@@ -46,7 +46,7 @@ void loop() {
       printData();
       lastDataReceivedTime = now;
     } else {
-      if ( lastDataReceivedTime + alarm <= now ) {}
+      if ( lastDataReceivedTime + alarm <= now ) { resetData(); }
     }
 
     driveSpeed = DATA[0];
