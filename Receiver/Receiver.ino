@@ -23,10 +23,12 @@ void setup(){
   }
 }
 
-int DATA[4] = {512, 512, 0, 0};
+//int DATA[4] = {512, 512, 0, 0};
+
+uint16_t DATA[2] = {512, 512};
 
 int angle = 90;
-bool DoIBeep = 0;
+//bool DoIBeep = 0;
 int driveSpeed = 512;
 
 unsigned long now;
@@ -53,8 +55,8 @@ void loop() {
     angle = 90 + map(DATA[1], 0, 1023, -30, 30);
     servo.write(angle);
 
-    DoIBeep = DATA[2];
-    if (DoIBeep) { beep(); } //бибикалку пока не сделали
+    //DoIBeep = DATA[2];
+    //if (DoIBeep) { beep(); } //бибикалку пока не сделали
       
 }
 
@@ -83,14 +85,14 @@ void resetData() {
 
   for (int i = 0; i < 2; i++) {
     DATA[i] = 512;
-    DATA[i+2] = 0;
+    //DATA[i+2] = 0;
   }
 
 }
 
-void beep() {
+//void beep() {
   //это я оставил на всякий случай
-}
+//}
 
 void drive(int vel) {
 
@@ -109,8 +111,9 @@ void drive(int vel) {
 
 void printData() {
 
-  for (int i = 0; i < 4; i++) {
-  
+  //for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 2; i++) {
+    
     Serial.print(DATA[i]);
     Serial.print(" ");
   
