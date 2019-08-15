@@ -29,10 +29,23 @@ int angle = 90;
 bool DoIBeep = 0;
 int driveSpeed = 512;
 
-void loop() {
+unsigned long now;
+unsigned long lastDataReceivedTime;
 
-    if ( radio.available() ) {radio.read(&DATA, sizeof(DATA)); Serial.print("Received: "); printData();}
-    //применить дату
+const uint16_t alarm = 1000;
+
+void loop() {
+    
+    now = millis();
+    
+    if ( radio.available() ) {
+      radio.read(&DATA, sizeof(DATA));
+      Serial.print("Received: ");
+      printData();
+      lastDataReceivedTime = now;
+    } else {
+      if ( lastDataReceivedTime + alarm <= now ) {}
+    }
 
     driveSpeed = DATA[0];
     drive(driveSpeed);
@@ -64,9 +77,9 @@ void radioRSetUp() {
 
 }
 
-void dataFuckUp() {
+void resetData() {
 
-  //здесь можно зажигать красный светодиод ошибки. Вообще лучше эту функцию вызывать при потере связи
+  //здесь можно зажигать красный светодиод ошибки.
 
   for (int i = 0; i < 2; i++) {
     DATA[i] = 512;
@@ -76,7 +89,7 @@ void dataFuckUp() {
 }
 
 void beep() {
-
+  //это я оставил на всякий случай
 }
 
 void drive(int vel) {
