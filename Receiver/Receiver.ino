@@ -4,6 +4,11 @@
 
 #include <Servo.h>
 
+/*
+ *#define _DEBUGGING
+ */
+
+
 Servo servo;
 RF24 radio(9,10);
 
@@ -12,8 +17,9 @@ RF24 radio(9,10);
 const uint64_t pipe = 0xE8E8F0F0E1LL;
 
 void setup(){
+  #ifdef _DEBUGGING
   Serial.begin(9600); 
-
+  #endif
   radioRSetUp();
   
   servo.attach(6);
@@ -23,16 +29,33 @@ void setup(){
   }
 }
 
-int DATA[4] = {512, 512, 0, 0};
+//int DATA[4] = {512, 512, 0, 0};
+
+uint16_t DATA[2] = {512, 512};
 
 int angle = 90;
-bool DoIBeep = 0;
+//bool DoIBeep = 0;
 int driveSpeed = 512;
 
-void loop() {
+unsigned long now;
+unsigned long lastDataReceivedTime;
 
-    if ( radio.available() ) {radio.read(&DATA, sizeof(DATA)); Serial.print("Received: "); printData();}
-    //применить дату
+const uint16_t alarm = 1000;
+
+void loop() {
+    
+    now = millis();
+    
+    if ( radio.available() ) {
+      #ifdef _DEBUGGING
+        radio.read(&DATA, sizeof(DATA));
+        Serial.print("Received: ");
+        printData();
+      #endif
+      lastDataReceivedTime = now;
+    } else {
+      if ( lastDataReceivedTime + alarm <= now ) { resetData(); }
+    }
 
     driveSpeed = DATA[0];
     drive(driveSpeed);
@@ -40,8 +63,8 @@ void loop() {
     angle = 90 + map(DATA[1], 0, 1023, -30, 30);
     servo.write(angle);
 
-    DoIBeep = DATA[2];
-    if (DoIBeep) { beep(); } //бибикалку пока не сделали
+    //DoIBeep = DATA[2];
+    //if (DoIBeep) { beep(); } //бибикалку пока не сделали
       
 }
 
@@ -64,20 +87,20 @@ void radioRSetUp() {
 
 }
 
-void dataFuckUp() {
+void resetData() {
 
-  //здесь можно зажигать красный светодиод ошибки. Вообще лучше эту функцию вызывать при потере связи
+  //здесь можно зажигать красный светодиод ошибки.
 
   for (int i = 0; i < 2; i++) {
     DATA[i] = 512;
-    DATA[i+2] = 0;
+    //DATA[i+2] = 0;
   }
 
 }
 
-void beep() {
-
-}
+//void beep() {
+  //это я оставил на всякий случай
+//}
 
 void drive(int vel) {
 
@@ -93,14 +116,16 @@ void drive(int vel) {
   }
 
 }
-
+#ifdef _DEBUGGING
 void printData() {
 
-  for (int i = 0; i < 4; i++) {
-  
+  //for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 2; i++) {
+    
     Serial.print(DATA[i]);
     Serial.print(" ");
   
   }
   Serial.println();
 }
+#endif
