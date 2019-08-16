@@ -19,16 +19,14 @@ const uint64_t pipe = 0xE8E8F0F0E1LL;
 void setup() {
   Serial.begin(9600); 
 
-  //pinMode(2, INPUT);
-  //pinMode(3, INPUT);
+  pinMode(2, INPUT);
+  pinMode(3, INPUT);
 
   radioTSetUp();
     
 }
 
-//int DATA[4] = {512, 512, 0, 1}; //последняя единица для дебаггинга
-
-uint16_t DATA[2] = {512, 512};
+int DATA[4] = {512, 512, 0, 1}; //последняя единица для дебаггинга
              /* 0 - Y - Speed
              ** 1 - X - Rotation Angle
              ** 2 - switch_1 - Beeping
@@ -42,8 +40,12 @@ void loop() {
 
   for (int i = 0; i < 2; i ++) {
     DATA[i] = analogRead(i);
-    //DATA[i+2] = digitalRead(i); 
+    DATA[i+2] = digitalRead(i); 
   }
+  for (int i = 0; i <= 1; i++) {
+    if ( DATA[i] > 512 - tH && DATA[i] < 512 + tH) DATA[i] = 512;
+  }
+
   for (int i = 0; i <= 1; i++) {
     if ( DATA[i] > 512 - tH && DATA[i] < 512 + tH) DATA[i] = 512;
   }
@@ -81,8 +83,7 @@ void radioTSetUp() {
 
 void printData() {
 
-  //for (int i = 0; i < 4; i++) {
-  for (int i = 0; i < 2; i++) {  
+  for (int i = 0; i < 4; i++) {
   
     Serial.print(DATA[i]);
     Serial.print(" ");

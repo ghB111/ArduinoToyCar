@@ -23,31 +23,16 @@ void setup(){
   }
 }
 
-//int DATA[4] = {512, 512, 0, 0};
-
-uint16_t DATA[2] = {512, 512};
+int DATA[4] = {512, 512, 0, 0};
 
 int angle = 90;
-//bool DoIBeep = 0;
+bool DoIBeep = 0;
 int driveSpeed = 512;
 
-unsigned long now;
-unsigned long lastDataReceivedTime;
-
-const uint16_t alarm = 1000;
-
 void loop() {
-    
-    now = millis();
-    
-    if ( radio.available() ) {
-      radio.read(&DATA, sizeof(DATA));
-      Serial.print("Received: ");
-      printData();
-      lastDataReceivedTime = now;
-    } else {
-      if ( lastDataReceivedTime + alarm <= now ) { resetData(); }
-    }
+
+    if ( radio.available() ) {radio.read(&DATA, sizeof(DATA)); Serial.print("Received: "); printData();}
+    //применить дату
 
     driveSpeed = DATA[0];
     drive(driveSpeed);
@@ -55,8 +40,8 @@ void loop() {
     angle = 90 + map(DATA[1], 0, 1023, -30, 30);
     servo.write(angle);
 
-    //DoIBeep = DATA[2];
-    //if (DoIBeep) { beep(); } //бибикалку пока не сделали
+    DoIBeep = DATA[2];
+    if (DoIBeep) { beep(); } //бибикалку пока не сделали
       
 }
 
@@ -79,20 +64,20 @@ void radioRSetUp() {
 
 }
 
-void resetData() {
+void dataFuckUp() {
 
-  //здесь можно зажигать красный светодиод ошибки.
+  //здесь можно зажигать красный светодиод ошибки. Вообще лучше эту функцию вызывать при потере связи
 
   for (int i = 0; i < 2; i++) {
     DATA[i] = 512;
-    //DATA[i+2] = 0;
+    DATA[i+2] = 0;
   }
 
 }
 
-//void beep() {
-  //это я оставил на всякий случай
-//}
+void beep() {
+
+}
 
 void drive(int vel) {
 
@@ -111,9 +96,8 @@ void drive(int vel) {
 
 void printData() {
 
-  //for (int i = 0; i < 4; i++) {
-  for (int i = 0; i < 2; i++) {
-    
+  for (int i = 0; i < 4; i++) {
+  
     Serial.print(DATA[i]);
     Serial.print(" ");
   
